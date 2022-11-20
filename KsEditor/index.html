@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>KsScript Language Editor</title>
+    <link rel="stylesheet" href="./css/yuko-reset.css">
+    <link rel="stylesheet" href="./css/yuko-global.css">
+    <link rel="stylesheet" href="./external/jquery-ui/jquery-ui.css">
+    <link rel="stylesheet" href="./external/jquery-ui/jquery-ui.theme.css">
+    <link rel="stylesheet" href="./external/farbtastic/farbtastic.css">
+    <link rel="stylesheet" href="./external/jsplumb/jsplumbtoolkit-defaults.css">
+    <link rel="stylesheet" href="./external/pageguide/pageguide.min.css">
+    <link rel="stylesheet" href="./css/main.css">
+</head>
+
+<body>
+
+    <div id="main-container">
+        <!-- Left Menu Area -->
+        <div id="y-area-menu" class="y-level1-container">
+            <div id="y-area-logo" class="y-level2-container">
+                <img src="./images/logo.png" alt="RyougiChan">
+            </div>
+            <div id="y-area-info" class="y-level2-container">
+                <ul id="y-info-list">
+                    <li>Author: <a title="RyougiChan on Github" href="https://github.com/RyougiChan">RyougiChan</a></li>
+                    <li>Repository: <a title="PoiGalgame Repository" href="https://github.com/RyougiChan/PoiGalgame">PoiGalgame</a></li>
+                    <!-- <li>DOCS: <a title="Wiki" href="https://github.com/RyougiChan/PoiGalgame/wiki">Ks Language Document </a></li> -->
+                    <li>
+                        <span style="color: red; user-select: none;">We highly recommend using lastest <strong><a target="_blank" href="https://chrome.google.com" title="https://chrome.google.com">Google Chrome</a></strong> to work with this page!</span>
+                    </li>
+                </ul>
+            </div>
+            <div id="y-area-components" class="y-level2-container">
+                <ul id="y-components-list">
+                    <li data-widget="ks-action">
+                        <div class="y-widget y-widget-action"></div><span>Action</span>
+                    </li>
+                    <li data-widget="ks-line">
+                        <div class="y-widget y-widget-line"></div><span>Line</span>
+                    </li>
+                    <li data-widget="ks-bfg">
+                        <div class="y-widget y-widget-fg"></div><span>BG&FG</span>
+                    </li>
+                    <li data-widget="ks-bgm">
+                        <div class="y-widget y-widget-bgm"></div><span>BGM</span>
+                    </li>
+                    <li data-widget="ks-video">
+                        <div class="y-widget y-widget-video"></div><span>Video</span>
+                    </li>
+                    <li data-widget="ks-selector">
+                        <div class="y-widget y-widget-selector"></div><span>Selector</span>
+                    </li>
+                    <li data-widget="ks-judge">
+                        <div class="y-widget y-widget-judge"></div><span>Judge</span>
+                    </li>
+                    <li data-widget="ks-adjuster">
+                        <div class="y-widget y-widget-adjuster"></div><span>Adjuster</span>
+                    </li>
+                    <li data-widget="ks-events">
+                        <div class="y-widget y-widget-events"></div><span>Events</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- Middle Draggable Area -->
+        <div id="y-area-operation" class="y-level1-container">
+            <div id="y-area-draggable">
+                <input type="hidden" name="jsplumb-connect-uuids">
+                <input type="hidden" name="ks-recorder">
+                <div id="y-area-zoom" class="y-area-draggable-header">
+                    <div class="y-area-zoombtn" id="y-area-zoom-n">-</div>
+                    <div class="y-area-zoombtn" id="y-area-zoom-v"><input class="no-border-input" name="scale-value"
+                            type="number" placeholder="100" value="100"> %</div>
+                    <div class="y-area-zoombtn" id="y-area-zoom-p">+</div>
+                </div>
+                <div class="y-area-draggable-header" title="Round Selection">
+                    <label id="round-selection-icon">📅</label>
+                    <div id="ks-round-selection-container">
+                        <div class="ks-round-selection">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div id="y-area-scaleable" data-round-id="1"></div>
+            </div>
+        </div>
+        <!-- Right Code Area -->
+        <div id="y-area-code" class="y-level1-container">
+            <div id="y-area-codetext-for-export">
+
+            </div>
+            <div id="y-area-codetext" class="y-level2-container">
+
+            </div>
+            <div id="y-area-codeop" class="y-level2-container">
+                <button id="y-button-import" class="ks-button ks-square">
+                    <span>IMPORT</span>
+                    <input type="file" name="ks-import" accept=".visual.ks" />
+                </button>
+                <button id="y-button-export" class="ks-button ks-square">EXPORT</button>
+            </div>
+        </div>
+
+        <div id="ks-adjuster-editor-container" data-from-action=""></div>
+
+        <ul id="tlyPageGuide" data-tourtitle="AREA DESCRIPTION">
+            <li class="tlypageguide_right" data-tourtarget="#y-components-list">
+                <div>
+                    COMPONENTS AREA <br>
+                    Drag these components and drop then to [AREA:2]
+                </div>
+            </li>
+            <li class="tlypageguide_left" data-tourtarget="#y-area-draggable">
+                <div>
+                    DRAGGABLE AREA <br>
+                    Components dropped into this area are draggable
+                </div>
+            </li>
+            <li class="tlypageguide_left" data-tourtarget="#y-area-codetext">
+                <div>
+                    CODE AREA <br>
+                    All available change at [AREA:2] will refresh this area autoly
+                </div>
+            </li>
+            <li class="tlypageguide_top" data-tourtarget="#y-button-import">
+                <div>
+                    IMPORT BUTTON <br>
+                    Import a saved work from your workspace by clicking this button and selecting a special file with extension [ <strong>.visual.ks</strong> ]
+                </div>
+            </li>
+            <li class="tlypageguide_top" data-tourtarget="#y-button-export">
+                <div>
+                    EXPORT BUTTON <br>
+                    Export and save your current work to your workspace(<strong>TWO</strong> files will ready to be downloaded) <br>
+                    <font color="red"><strong>!IMPORTANT</strong></font>: Your <strong>MUST</strong> allow downloading multiple files with your browser
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <script src="./external/jquery-ui/jquery.js"></script>
+    <script src="./external/jquery-ui/jquery-ui.js"></script>
+    <script src="./external/farbtastic/farbtastic.js"></script>
+    <script src="./external/jsplumb/jsplumb.min.js"></script>
+    <script src="./external/pageguide/pageguide.min.js"></script>
+    <script src="./js/global-variable.js"></script>
+    <script src="./js/ks-recorder.js"></script>
+    <script src="./js/config/player-status.js"></script>
+    <script src="./js/config/common-event.js"></script>
+    <script src="./js/config/actor.js"></script>
+    <script src="./js/config/adjuster-list.js"></script>
+    <script src="./js/ks-util.js"></script>
+    <script src="./js/onload.js"></script>
+    <script src="./js/constant.js"></script>
+    <script src="./js/ks-widget.js"></script>
+    <script src="./js/ks-code-generator.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+
+</html>
