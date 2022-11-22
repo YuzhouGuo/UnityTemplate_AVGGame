@@ -15,6 +15,10 @@ namespace Assets.Script.Chapter
 {
     public class ChapterController : MonoBehaviour
     {
+        #region consts
+        private static float standingOnRight = 4.0f;
+        private static float standingOnLeft = -4.0f;
+        #endregion
 
         #region Fields
         private static string rootPath;
@@ -79,6 +83,8 @@ namespace Assets.Script.Chapter
         // Current displaying script
         private GalgameScript currentScript;
         private SpriteRenderer bgSpriteRenderer;
+        private SpriteRenderer fgSpriteRenderer;
+        private Transform fgSpriteTransform;
         private GameObject videoPlayer;
         private GameObject audioSource;
         private GameObject voiceAudioSource;
@@ -150,6 +156,8 @@ namespace Assets.Script.Chapter
             selectorOptionPrefab = Resources.Load<GameObject>("Prefabs/SelectorOption").GetComponent<Button>();
 
             bgSpriteRenderer = GameObject.Find("Background/Bg").GetComponent<SpriteRenderer>();
+            fgSpriteRenderer = GameObject.Find("Background/Fg").GetComponent<SpriteRenderer>();
+            fgSpriteTransform = GameObject.Find("Background/Fg").GetComponent<Transform>();
             videoPlayer = GameObject.Find("VideoPlayer/VideoPlayer");
             audioSource = GameObject.Find("AudioSource/BgmAudioSource");
             voiceAudioSource = GameObject.Find("AudioSource/VoiceAudioSource");
@@ -163,15 +171,13 @@ namespace Assets.Script.Chapter
             actorName = lineContainer.transform.Find("ActorName").GetComponent<Text>();
 
             galgameActions = currentScript.GalgameActions;
-            if (null != currentScript.Bg)
-            {
+            if (currentScript.Bg != null){
                 bgSpriteRenderer.sprite = currentScript.Bg;
             }
 
             // Reload galgameAction as a hashtable
             galgameActionsMap = new Dictionary<string, GalgameAction>();
-            foreach (GalgameAction a in currentScript.GalgameActions)
-            {
+            foreach (GalgameAction a in currentScript.GalgameActions){
                 galgameActionsMap.Add(a.Id, a);
             }
 
@@ -210,25 +216,20 @@ namespace Assets.Script.Chapter
             // mosue left button click
             if (Input.GetButtonDown("Fire1"))
             {
-
-                if (titleContainer.activeSelf)
-                {
+                if (titleContainer.activeSelf){
                     return;
                 }
 
                 GameObject hitUIObject = null;
 
-                if (EventSystem.current.IsPointerOverGameObject())
-                {
+                if (EventSystem.current.IsPointerOverGameObject()){
                     hitUIObject = GetMouseOverUIObject(mainCanvas);
                     Debug.Log("---- EventSystem.current.IsPointerOverGameObject ----" + hitUIObject);
                 }
 
-                if (null != hitUIObject && hitUIObject.tag.Trim() == "OperationButton")
-                {
+                if (null != hitUIObject && hitUIObject.tag.Trim() == "OperationButton"){
                     Debug.Log("hitUIObject.name: " + hitUIObject.name);
-                    switch (hitUIObject.name)
-                    {
+                    switch (hitUIObject.name){
                         case "CloseSaveData":
                             isSavingGameData = false;
                             isLoadingSavedData = false;
@@ -237,23 +238,18 @@ namespace Assets.Script.Chapter
                     }
                 }
 
-                if (currentLineIndex <= galgameActions.Count && IsSwitchLineAllowed())
-                {
-                    if (!lineContainer.activeSelf)
-                    {
+                if (currentLineIndex <= galgameActions.Count && IsSwitchLineAllowed()){
+                    if (!lineContainer.activeSelf){
                         gameController.ActiveGameObject(lineContainer);
                     }
-                    if (null == hitUIObject || (null != hitUIObject && hitUIObject.tag.Trim() != "OperationButton"))
-                    {
+                    if (null == hitUIObject || (null != hitUIObject && hitUIObject.tag.Trim() != "OperationButton")){
                         SwitchLine();
                     }
                 }
             }
 
-            if (SettingModel.isSkipModeOn && IsSwitchLineAllowed() && (null == preSkipTime || (DateTime.Now - preSkipTime).TotalSeconds > SettingModel.skipModeLineSwitchDuration))
-            {
-                if (!lineContainer.activeSelf)
-                {
+            if (SettingModel.isSkipModeOn && IsSwitchLineAllowed() && (null == preSkipTime || (DateTime.Now - preSkipTime).TotalSeconds > SettingModel.skipModeLineSwitchDuration)){
+                if (!lineContainer.activeSelf){
                     gameController.ActiveGameObject(lineContainer);
                 }
                 SwitchLine();
@@ -261,8 +257,7 @@ namespace Assets.Script.Chapter
             }
 
             // mouse scroll up
-            if (Input.mouseScrollDelta.y > 0 && !historyField.activeSelf && gameController.inGame)
-            {
+            if (Input.mouseScrollDelta.y > 0 && !historyField.activeSelf && gameController.inGame){
                 // TODO: Fix bug of adding double history text
                 ShowhistoryField();
             }
@@ -272,12 +267,10 @@ namespace Assets.Script.Chapter
         /// <summary>
         /// Show history TextView
         /// </summary>
-        public void ShowhistoryField()
-        {
+        public void ShowhistoryField(){
             historyField.SetActive(true);
             // If `currentTextShowCoroutine` is going
-            if (isShowingLine)
-            {
+            if (isShowingLine){
                 ShowLineImmediately();
             }
             SetManualMode(true);
@@ -286,8 +279,7 @@ namespace Assets.Script.Chapter
         /// <summary>
         /// Hide history TextView
         /// </summary>
-        public void HideHistoryField()
-        {
+        public void HideHistoryField(){
             hidehistoryFieldCoroutine = StartCoroutine(HideHistoryFieldTimeOut());
         }
 
@@ -295,11 +287,9 @@ namespace Assets.Script.Chapter
         /// Set reading mode to manual
         /// </summary>
         /// <param name="manual"></param>
-        public void SetManualMode(bool manual)
-        {
+        public void SetManualMode(bool manual){
             SettingModel.isManualModeOn = manual;
-            if (manual)
-            {
+            if (manual){
                 SetAutoMode(false);
                 SetSkipMode(false);
                 StopAllCoroutines();
@@ -311,8 +301,7 @@ namespace Assets.Script.Chapter
         /// <summary>
         /// Auto Reading
         /// </summary>
-        public void AutoReading()
-        {
+        public void AutoReading(){
             SetAutoMode(!SettingModel.isAutoReadingModeOn);
         }
 
@@ -320,22 +309,18 @@ namespace Assets.Script.Chapter
         /// Set auto mode
         /// </summary>
         /// <param name="auto"></param>
-        public void SetAutoMode(bool auto)
-        {
+        public void SetAutoMode(bool auto){
             skipButton.GetComponent<Image>().color = Color.white;
             SettingModel.isAutoReadingModeOn = auto;
             // If SettingModel.isAutoReadingModeOn == true, call SwitchLine()
-            if (!auto)
-            {
+            if (!auto){
                 autoPlayButton.GetComponent<Image>().color = Color.white;
             }
-            else
-            {
+            else{
                 SettingModel.isManualModeOn = false;
                 SettingModel.isSkipModeOn = false;
             }
-            if (SettingModel.isAutoReadingModeOn && IsSwitchLineAllowed() && !SettingModel.isSkipModeOn && !isShowingLine)
-            {
+            if (SettingModel.isAutoReadingModeOn && IsSwitchLineAllowed() && !SettingModel.isSkipModeOn && !isShowingLine){
                 autoPlayButton.GetComponent<Image>().color = Color.black;
                 currentLineSwitchCoroutine = StartCoroutine(SwitchLineTimeout());
             }
@@ -344,8 +329,7 @@ namespace Assets.Script.Chapter
         /// <summary>
         /// Enable/Disable skip mode
         /// </summary>
-        public void ChangeSkipMode()
-        {
+        public void ChangeSkipMode(){
             SetSkipMode(!SettingModel.isSkipModeOn);
         }
 
@@ -353,21 +337,17 @@ namespace Assets.Script.Chapter
         /// Set skip mode
         /// </summary>
         /// <param name="skip"></param>
-        public void SetSkipMode(bool skip)
-        {
+        public void SetSkipMode(bool skip){
             autoPlayButton.GetComponent<Image>().color = Color.white;
             SettingModel.isSkipModeOn = skip;
-            if (!skip)
-            {
+            if (!skip){
                 skipButton.GetComponent<Image>().color = Color.white;
             }
-            else
-            {
+            else{
                 SettingModel.isManualModeOn = false;
                 SettingModel.isAutoReadingModeOn = false;
             }
-            if (SettingModel.isSkipModeOn && IsSwitchLineAllowed())
-            {
+            if (SettingModel.isSkipModeOn && IsSwitchLineAllowed()){
                 skipButton.GetComponent<Image>().color = Color.black;
                 StopAllCoroutines();
                 ShowLineImmediately();
@@ -378,8 +358,7 @@ namespace Assets.Script.Chapter
         /// <summary>
         /// Save game data
         /// </summary>
-        public void SaveData()
-        {
+        public void SaveData(){
             isSavingGameData = true;
             SetSavedDataModelButtons(0, 12);
             // gameController.ShowCG();
@@ -391,16 +370,14 @@ namespace Assets.Script.Chapter
         /// <summary>
         /// Quick save
         /// </summary>
-        public void QuickSave()
-        {
+        public void QuickSave(){
             Debug.Log(string.Format("Quick Save Game Data: CurrentScript={0}, CurrentLineIndex={1}", currentScript.ChapterName, currentLineIndex));
         }
 
         /// <summary>
         /// Load saved data
         /// </summary>
-        public void LoadSavedData()
-        {
+        public void LoadSavedData(){
             isLoadingSavedData = true;
             SetSavedDataModelButtons(0, 12);
             // gameController.ShowCG();
@@ -413,22 +390,21 @@ namespace Assets.Script.Chapter
         /// Switch page display to display saved data
         /// </summary>
         /// <param name="step"></param>
-        public void SwitchSavedDataPage(int step)
-        {
+        public void SwitchSavedDataPage(int step){
             // If out of range, do nothing
-            if (lastLoadedSavedDataPage + step < 0 || lastLoadedSavedDataPage + step >= savdDataPageCount) return;
+            if (lastLoadedSavedDataPage + step < 0 || lastLoadedSavedDataPage + step >= savdDataPageCount){
+                return;
+            }
             // Hide previous display saved data page
             Transform target = savedDataPanel.transform.Find(string.Format("SavedDataPage_{0}", lastLoadedSavedDataPage));
-            if (null != target)
-            {
+            if (null != target){
                 target.gameObject.SetActive(false);
                 // gameController.DeactiveGameObject(target.gameObject);
             }
 
             lastLoadedSavedDataPage += step;
             Transform nTarget = savedDataPanel.transform.Find(string.Format("SavedDataPage_{0}", lastLoadedSavedDataPage));
-            if (null != nTarget)
-            {
+            if (null != nTarget){
                 nTarget.gameObject.SetActive(true);
                 // gameController.ActiveGameObject(nTarget.gameObject);
             }
@@ -439,8 +415,7 @@ namespace Assets.Script.Chapter
         /// <summary>
         /// Open setting field
         /// </summary>
-        public void OpenSetting()
-        {
+        public void OpenSetting(){
             // gameController.ShowCG();
             gameController.ActiveGameObject(settingField);
             SetManualMode(true);
@@ -449,23 +424,18 @@ namespace Assets.Script.Chapter
         /// <summary>
         /// Close setting field
         /// </summary>
-        public void CloseSetting()
-        {
+        public void CloseSetting(){
             gameController.DeactiveGameObject(settingField);
             gameController.PersistSettingConfig();
             GameObject lineObject = lineContainer.transform.Find("Line").gameObject;
-            if (SettingModel.showTextShadow)
-            {
-                if (!lineObject.GetComponent<Shadow>())
-                {
+            if (SettingModel.showTextShadow){
+                if (!lineObject.GetComponent<Shadow>()){
                     Shadow s = lineObject.AddComponent<Shadow>();
                     s.effectDistance = new Vector2(2, -1);
                 }
             }
-            else
-            {
-                if (lineObject.GetComponent<Shadow>())
-                {
+            else{
+                if (lineObject.GetComponent<Shadow>()){
                     Destroy(lineObject.GetComponent<Shadow>());
                 }
             }
@@ -474,8 +444,7 @@ namespace Assets.Script.Chapter
         /// <summary>
         /// Reset 
         /// </summary>
-        public void ResetChapter()
-        {
+        public void ResetChapter(){
             currentLineIndex = 0;
             currentLineCharIndex = 0;
             currentGalgameAction = null;
@@ -485,8 +454,7 @@ namespace Assets.Script.Chapter
 
         #region Private methods
 
-        private void InitSceneGameObject()
-        {
+        private void InitSceneGameObject(){
             Vector2 sceneDeltaSize = mainCanvas.GetComponent<RectTransform>().sizeDelta;
 
             historyField.GetComponent<RectTransform>().sizeDelta = sceneDeltaSize;
@@ -497,21 +465,17 @@ namespace Assets.Script.Chapter
         /// Whether switch line operation is allow or not
         /// </summary>
         /// <returns></returns>
-        private bool IsSwitchLineAllowed()
-        {
+        private bool IsSwitchLineAllowed(){
             return gameController.inGame && !isMenuActive && !historyField.activeSelf && !savedDataField.activeSelf && !settingField.activeSelf && !popupWindow.activeSelf && !selectorField.activeSelf;
         }
 
         /// <summary>
         /// Hide history TextView with duration
         /// </summary>
-        private IEnumerator HideHistoryFieldTimeOut()
-        {
-            if (historyField.activeSelf)
-            {
+        private IEnumerator HideHistoryFieldTimeOut(){
+            if (historyField.activeSelf){
                 historyField.SetActive(false);
-                if (SettingModel.isAutoReadingModeOn)
-                {
+                if (SettingModel.isAutoReadingModeOn){
                     yield return lineSwitchWaitForSeconds;
                     SwitchLine();
                 }
@@ -521,13 +485,10 @@ namespace Assets.Script.Chapter
         /// <summary>
         /// Hide history TextView with duration
         /// </summary>
-        private IEnumerator HideSelectorFieldTimeOut()
-        {
-            if (selectorField.activeSelf)
-            {
+        private IEnumerator HideSelectorFieldTimeOut(){
+            if (selectorField.activeSelf){
                 selectorField.SetActive(false);
-                if (SettingModel.isAutoReadingModeOn)
-                {
+                if (SettingModel.isAutoReadingModeOn){
                     yield return lineSwitchWaitForSeconds;
                     SwitchLine();
                 }
@@ -537,10 +498,8 @@ namespace Assets.Script.Chapter
         /// <summary>
         /// Switch action
         /// </summary>
-        private void SwitchAction(string actionId)
-        {
-            if (!string.IsNullOrEmpty(actionId))
-            {
+        private void SwitchAction(string actionId){
+            if (!string.IsNullOrEmpty(actionId)){
                 // set current galgame action
                 currentGalgameAction = galgameActionsMap[actionId];
                 // reset line index
@@ -554,21 +513,17 @@ namespace Assets.Script.Chapter
                     && null == currentGalgameAction.Bgm
                     && null == currentGalgameAction.Background
                     && null == currentGalgameAction.Video
-                    )
-                {
+                    ){
                     // Continue immediately
                     SwitchAction(currentGalgameAction.NextActionId);
                 }
             }
-            else
-            {
+            else{
                 // this chapter is end
-                if (SettingModel.isSkipModeOn)
-                {
+                if (SettingModel.isSkipModeOn){
                     SetSkipMode(false);
                 }
-                if (SettingModel.isAutoReadingModeOn)
-                {
+                if (SettingModel.isAutoReadingModeOn){
                     SetAutoMode(false);
                 }
                 // TODO: maybe consider loading another chapter?
@@ -585,18 +540,14 @@ namespace Assets.Script.Chapter
         /// <summary>
         /// Show new line controller
         /// </summary>
-        private void SwitchLine()
-        {
-            if (null == currentGalgameAction)
-            {
+        private void SwitchLine(){
+            if (null == currentGalgameAction){
                 SwitchAction(currentScript.StartActionId);
             }
             line.text = string.Empty; // clear previous line
-            if (isShowingLine)
-            {
+            if (isShowingLine){
                 Debug.Log(DateTime.Now.ToString() + "准备跳过");
-                if (null != currentTextShowCoroutine)
-                {
+                if (null != currentTextShowCoroutine){
                     StopCoroutine(currentTextShowCoroutine);
                     ShowLineImmediately(nextLine);
                     AddHistoryText(nextLine); // Add line to history text list
@@ -608,33 +559,25 @@ namespace Assets.Script.Chapter
 
             currentLineCharIndex = -1; // read from index: -1
 
-            if (isShowingSelectorOptionActionTime)
-            {
-                if (currentSelectorOptionLineIndex >= ActiveSelectorOption.Action.Lines.Count)
-                {
+            if (isShowingSelectorOptionActionTime){
+                if (currentSelectorOptionLineIndex >= ActiveSelectorOption.Action.Lines.Count){
                     isShowingSelectorOptionActionTime = false;
                 }
-                else
-                {
+                else{
                     GalgameScriptLine sLine = ActiveSelectorOption.Action.Lines[currentSelectorOptionLineIndex];
                     nextLine = sLine.text.Replace("\\n", "\n");
                     actorName.text = sLine.actor.ToString();
-                    if (SettingModel.isSkipModeOn)
-                    {
+                    if (SettingModel.isSkipModeOn){
                         ShowLineImmediately();
                     }
-                    else
-                    {
+                    else{
                         currentTextShowCoroutine = StartCoroutine(ShowLineTimeOut(nextLine));
                     }
                     currentSelectorOptionLineIndex++;
                 }
-
             }
-            else
-            {
-                if (IsSwitchLineAllowed() && currentLineIndex == currentGalgameAction.Lines.Count)
-                {
+            else{
+                if (IsSwitchLineAllowed() && currentLineIndex == currentGalgameAction.Lines.Count){
                     // reach end point of current action, switch
                     SwitchAction(currentGalgameAction.NextActionId);
                     // Debug.Log("Switch action: " + currentGalgameAction.Id + " to " + currentGalgameAction.NextActionId);
@@ -642,15 +585,12 @@ namespace Assets.Script.Chapter
                     return;
                 }
 
-                if (currentLineIndex < currentGalgameAction.Lines.Count)
-                {
+                if (currentLineIndex < currentGalgameAction.Lines.Count){
                     nextLine = currentGalgameAction.Lines[currentLineIndex].text.Replace("\\n", "\n");
-                    if (SettingModel.isSkipModeOn)
-                    {
+                    if (SettingModel.isSkipModeOn){
                         ShowLineImmediately();
                     }
-                    else
-                    {
+                    else{
                         currentTextShowCoroutine = StartCoroutine(ShowLineTimeOut(nextLine));
                     }
 
@@ -658,20 +598,16 @@ namespace Assets.Script.Chapter
                     currentLineIndex++;
                 }
             }
-
         }
 
         /// <summary>
         /// Show new line controller
         /// </summary>
-        private void SwitchLine_Old()
-        {
+        private void SwitchLine_Old(){
             line.text = string.Empty; // clear previous line
-            if (isShowingLine)
-            {
+            if (isShowingLine){
                 Debug.Log(DateTime.Now.ToString() + "准备跳过");
-                if (null != currentTextShowCoroutine)
-                {
+                if (null != currentTextShowCoroutine){
                     StopCoroutine(currentTextShowCoroutine);
                     ShowLineImmediately(nextLine);
                     AddHistoryText(nextLine); // Add line to history text list
@@ -683,26 +619,20 @@ namespace Assets.Script.Chapter
 
             currentLineCharIndex = -1; // read from index: -1
 
-            if (isShowingSelectorOptionActionTime)
-            {
+            if (isShowingSelectorOptionActionTime){
                 GalgamePlainAction action = ActiveSelectorOption.Action;
 
-                if (++currentSelectorOptionLineIndex >= ActiveSelectorOption.Action.Lines.Count)
-                {
+                if (++currentSelectorOptionLineIndex >= ActiveSelectorOption.Action.Lines.Count){
                     isShowingSelectorOptionActionTime = false;
                 }
             }
-            else
-            {
-                if (currentLineIndex == galgameActions.Count)
-                {
+            else{
+                if (currentLineIndex == galgameActions.Count){
                     // this chapter is end
-                    if (SettingModel.isSkipModeOn)
-                    {
+                    if (SettingModel.isSkipModeOn){
                         SetSkipMode(false);
                     }
-                    if (SettingModel.isAutoReadingModeOn)
-                    {
+                    if (SettingModel.isAutoReadingModeOn){
                         SetAutoMode(false);
                     }
                     // TODO: maybe consider loading another chapter?
@@ -723,8 +653,7 @@ namespace Assets.Script.Chapter
                 currentLineIndex++;
 
                 // If is a empty line with only bgm/bg
-                if (string.Empty.Equals(currentGalgameAction.Line.text.Trim()) && (null != currentGalgameAction.Bgm || null != currentGalgameAction.Background))
-                {
+                if (string.Empty.Equals(currentGalgameAction.Line.text.Trim()) && (null != currentGalgameAction.Bgm || null != currentGalgameAction.Background)){
                     // Continue immediately
                     SwitchLine();
                 }
@@ -736,103 +665,97 @@ namespace Assets.Script.Chapter
         /// To build a action
         /// </summary>
         /// <param name="action"></param>
-        private void BuildAAction(GalgamePlainAction action)
-        {
-            if (null != action.Bgm)
-            {
+        private void BuildAAction(GalgamePlainAction action){
+            if (action.Bgm != null){
                 // bgm
                 _bgmAudio.clip = action.Bgm;
                 _bgmAudio.Play();
             }
-            if (null != action.Voice)
-            {
+            if (action.Voice != null){
                 // voice
                 _voiceAudio.clip = action.Voice;
                 _voiceAudio.Play();
             }
-            if (action.Actor != Actor.NULL)
-            {
+            if (action.Actor != Actor.NULL){
                 // actor's name
                 // actorName.text = action.Actor.ToString();
             }
-            else
-            {
+            else{
                 actorName.text = string.Empty;
             }
-            if (null != action.Background)
-            {
+            if (action.Background != null){
                 // current background
                 bgSpriteRenderer.sprite = action.Background;
+            }
+            if (action.Foreground != null){
+                // current foreground
+                fgSpriteRenderer.sprite = action.Foreground;
+                Vector3 p = fgSpriteTransform.position;
+                if(action.Actor == Actor.女の子){
+                    fgSpriteRenderer.flipX = true;
+                    p.x = standingOnRight;
+                }
+                else{
+                    fgSpriteRenderer.flipX = false;
+                    p.x = standingOnLeft;
+                }
+                fgSpriteTransform.position = p;
             }
             // text-align
             line.alignment = EnumMap.AlignToTextAnchor(action.Line.align);
 
             // font
-            if (null != font)
-            {
+            if (font != null){
                 line.font = font;
             }
             // font-style
-            if (action.Line.fstyle == FontStyle.Normal)
-            {
+            if (action.Line.fstyle == FontStyle.Normal){
                 line.fontStyle = DefaultScriptProperty.fstyle;
             }
-            else
-            {
+            else{
                 line.fontStyle = action.Line.fstyle;
             }
             // font-size
-            if (action.Line.fsize != 0)
-            {
+            if (action.Line.fsize != 0){
                 line.fontSize = Mathf.RoundToInt(action.Line.fsize);
             }
-            else if (DefaultScriptProperty.fsize != 0)
-            {
+            else if (DefaultScriptProperty.fsize != 0){
                 line.fontSize = Mathf.RoundToInt(DefaultScriptProperty.fsize);
             }
             // line-spacing
-            if (action.Line.linespacing != 0)
-            {
+            if (action.Line.linespacing != 0){
                 line.lineSpacing = action.Line.linespacing;
             }
-            else if (DefaultScriptProperty.linespacing != 0)
-            {
+            else if (DefaultScriptProperty.linespacing != 0){
                 line.lineSpacing = DefaultScriptProperty.linespacing;
             }
             // font-color
-            if (!string.IsNullOrEmpty(action.Line.fcolor))
-            {
+            if (!string.IsNullOrEmpty(action.Line.fcolor)){
                 line.color = ColorUtil.HexToUnityColor(uint.Parse(action.Line.fcolor.Replace("0x", "").Substring(0, 6), System.Globalization.NumberStyles.HexNumber));
             }
-            else if (!string.IsNullOrEmpty(DefaultScriptProperty.fcolor))
-            {
+            else if (!string.IsNullOrEmpty(DefaultScriptProperty.fcolor)){
                 line.color = ColorUtil.HexToUnityColor(uint.Parse(DefaultScriptProperty.fcolor, System.Globalization.NumberStyles.HexNumber));
             }
 
-            if (action.GetType().Equals(typeof(GalgameAction)))
-            {
+            if (action.GetType().Equals(typeof(GalgameAction))){
 
                 // If there a selector component
-                if (!string.IsNullOrEmpty(((GalgameAction)action).Selector.Id))
-                {
+                if (!string.IsNullOrEmpty(((GalgameAction)action).Selector.Id)){
                     BuildSelector(((GalgameAction)action).Selector);
                 }
 
                 // If there a adjuster component
-                if (!string.IsNullOrEmpty(((GalgameAction)action).GameValuesAdjuster.Id))
-                {
+                if (!string.IsNullOrEmpty(((GalgameAction)action).GameValuesAdjuster.Id)){
                     ExecuteAdjuster(((GalgameAction)action).GameValuesAdjuster);
                 }
 
                 // If there a events component
-                if (!string.IsNullOrEmpty(((GalgameAction)action).Events.Id))
-                {
+                if (!string.IsNullOrEmpty(((GalgameAction)action).Events.Id)){
                     TriggerEvents(((GalgameAction)action).Events);
                 }
 
                 // If there a judge component
-                if (!string.IsNullOrEmpty(((GalgameAction)action).Judge.Id))
-                {
+                if (!string.IsNullOrEmpty(((GalgameAction)action).Judge.Id)){
                     ExecuteJudge(((GalgameAction)action).Judge);
                 }
             }
@@ -841,22 +764,20 @@ namespace Assets.Script.Chapter
         /// <summary>
         /// Build current scene's Selector component
         /// </summary>
-        private void BuildSelector(PSelector selector)
-        {
+        private void BuildSelector(PSelector selector){
             if ((null == selector.Options || selector.Options.Count == 0) && (null == selector.Texts || selector.Texts.Count == 0)
-                && (null == selector.Bgms || selector.Bgms.Count == 0) && (null == selector.Bgs || selector.Bgs.Count == 0))
-                return;
+                && (null == selector.Bgms || selector.Bgms.Count == 0) && (null == selector.Bgs || selector.Bgs.Count == 0)){
+                    return;
+                }
 
             // Selector.Options has higher priority than Options set on properties(Texts,Bgs,Bgms) of Selector
-            if (null == selector.Options || selector.Options.Count == 0)
-            {
+            if (selector.Options == null || selector.Options.Count == 0){
                 selector.Options = BuildSelectorOptions(selector);
                 // TODO: Consider update chapter
             }
 
             // Re-build Selector Container
-            if (null != this.selector)
-            {
+            if (this.selector != null){
                 Destroy(this.selector);
             }
             this.selector = new GameObject("Selector");
@@ -872,8 +793,7 @@ namespace Assets.Script.Chapter
             selectorGroup.spacing = opSpacing;
 
             // Set size of selector panel
-            switch (selector.Type)
-            {
+            switch (selector.Type){
                 case Model.Enum.SelectorType.HORIZONTAL:
                     opSize = new Vector2(200.0f, 300.0f);
                     selectorGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
@@ -889,16 +809,13 @@ namespace Assets.Script.Chapter
             }
             selectorGroup.constraintCount = opNumber;
 
-            foreach (PSelectorOption option in selector.Options)
-            {
+            foreach (PSelectorOption option in selector.Options){
                 Button newEmptyOption = Instantiate(selectorOptionPrefab);
                 Button.ButtonClickedEvent optionClickEvent = new Button.ButtonClickedEvent();
-                optionClickEvent.AddListener(() =>
-                {
+                optionClickEvent.AddListener(() =>{
                     selector.IsSelected = true;
                     selector.SelectedItem = selector.Options.IndexOf(option);
-                    if (null != option.Action)
-                    {
+                    if (option.Action != null){
                         this.ActiveSelectorOption = option;
                         this.isShowingSelectorOptionActionTime = true;                                  // Hide selector panel
                         this.currentSelectorOptionLineIndex = 0;
@@ -912,56 +829,45 @@ namespace Assets.Script.Chapter
                     Debug.Log("Global Values: \n" + GlobalGameData.GameValues.ToJSONString());
                 });
                 newEmptyOption.onClick = optionClickEvent;
-                if (null != option.Bg)
-                {
+                if (option.Bg != null){
                     newEmptyOption.GetComponent<RawImage>().texture = option.Bg.texture;
                 }
-                if (null != option.Bgm)
-                {
+                if (option.Bgm != null){
                     newEmptyOption.GetComponent<AudioSource>().clip = option.Bgm;
                 }
                 Text ot = newEmptyOption.transform.Find("OptionText").GetComponent<Text>();
                 ot.text = option.Text.text;
                 ot.alignment = EnumMap.AlignToTextAnchor(option.Text.align);
+
                 // font-style
-                if (option.Text.fstyle == FontStyle.Normal)
-                {
-                    ot.fontStyle = DefaultScriptProperty.fstyle;
-                }
-                else
-                {
-                    ot.fontStyle = option.Text.fstyle;
-                }
+                ot.fontStyle = (option.Text.fstyle == FontStyle.Normal) ? DefaultScriptProperty.fstyle : option.Text.fstyle;
+
                 // font-size
-                if (option.Text.fsize != 0)
-                {
+                if (option.Text.fsize != 0){
                     ot.fontSize = Mathf.RoundToInt(option.Text.fsize);
                 }
-                else if (DefaultScriptProperty.fsize != 0)
-                {
+                else if (DefaultScriptProperty.fsize != 0){
                     ot.fontSize = Mathf.RoundToInt(DefaultScriptProperty.fsize);
                 }
+
                 // line-spacing
-                if (option.Text.linespacing != 0)
-                {
+                if (option.Text.linespacing != 0){
                     ot.lineSpacing = option.Text.linespacing;
                 }
-                else if (DefaultScriptProperty.linespacing != 0)
-                {
+                else if (DefaultScriptProperty.linespacing != 0){
                     ot.lineSpacing = DefaultScriptProperty.linespacing;
                 }
+
                 // font-color
-                if (!string.IsNullOrEmpty(option.Text.fcolor))
-                {
+                if (!string.IsNullOrEmpty(option.Text.fcolor)){
                     ot.color = ColorUtil.HexToUnityColor(uint.Parse(option.Text.fcolor.Replace("0x", "").Substring(0, 6), System.Globalization.NumberStyles.HexNumber));
                 }
-                else if (!string.IsNullOrEmpty(DefaultScriptProperty.fcolor))
-                {
+                else if (!string.IsNullOrEmpty(DefaultScriptProperty.fcolor)){
                     ot.color = ColorUtil.HexToUnityColor(uint.Parse(DefaultScriptProperty.fcolor, System.Globalization.NumberStyles.HexNumber));
                 }
                 newEmptyOption.transform.SetParent(this.selector.transform);
             }
-            // this.selector.GetComponent<RectTransform>().position = Vector3.zero;
+            // this.selector.GetComponent<RectTransform>().position = Vector3x.zero;
             this.selector.transform.SetParent(selectorField.transform);
             this.selector.transform.localScale = Vector3.one;
             selectorField.SetActive(true);
@@ -970,12 +876,10 @@ namespace Assets.Script.Chapter
         /// <summary>
         /// Build Selector's Options
         /// </summary>
-        private List<PSelectorOption> BuildSelectorOptions(PSelector selector)
-        {
+        private List<PSelectorOption> BuildSelectorOptions(PSelector selector){
             List<PSelectorOption> options = new List<PSelectorOption>();
             int optionNumber = new int[] { selector.Bgms.Count, selector.Bgs.Count, selector.Texts.Count }.Max();
-            for (int n = 0; n < optionNumber; n++)
-            {
+            for (int n = 0; n < optionNumber; n++){
                 PSelectorOption o = new PSelectorOption();
                 o.Text = n > selector.Texts.Count - 1 ? default(PText) : selector.Texts[n];
                 o.Bg = n > selector.Bgs.Count - 1 ? default(Sprite) : selector.Bgs[n];
@@ -989,26 +893,21 @@ namespace Assets.Script.Chapter
         /// Execute this adjuster to change global values
         /// </summary>
         /// <param name="adjuster"></param>
-        private void ExecuteAdjuster(PGameValuesAdjuster adjuster)
-        {
+        private void ExecuteAdjuster(PGameValuesAdjuster adjuster){
             gameController.UpdateGlobalGameValues(adjuster.DeltaGameValues);                  // Update global values
         }
 
         /// <summary>
         /// Trigger this adjuster to change global values
         /// </summary>
-        private void TriggerEvents(PEvents events)
-        {
-            foreach (PEventItem eventItem in events.Events)
-            {
+        private void TriggerEvents(PEvents events){
+            foreach (PEventItem eventItem in events.Events){
                 int evtId = Convert.ToInt32(eventItem.EvtId);
                 string evtDesc = EventCollection.Instance.Get(evtId);
-                if (!string.IsNullOrEmpty(evtDesc))
-                {
+                if (!string.IsNullOrEmpty(evtDesc)){
                     // TODO: Maybe display event description here.
 
-                    if (null != eventItem.DeltaGameValues)
-                    {
+                    if (null != eventItem.DeltaGameValues){
                         gameController.UpdateGlobalGameValues(eventItem.DeltaGameValues);                  // Update global values
                     }
                 }
@@ -1019,33 +918,25 @@ namespace Assets.Script.Chapter
         /// Execute this judge component
         /// </summary>
         /// <param name="judge"></param>
-        public void ExecuteJudge(PJudge judge)
-        {
+        public void ExecuteJudge(PJudge judge){
             // TODO: deal with MeetGameValues
-            if (null != judge.MeetGameValues && judge.MeetGameValues.Count > 0)
-            {
-                foreach (GameValues gvs in judge.MeetGameValues)
-                {
-                    if (GlobalGameData.GameValues.Equals(gvs))
-                    {
+            if (judge.MeetGameValues != null && judge.MeetGameValues.Count > 0){
+                foreach (GameValues gvs in judge.MeetGameValues){
+                    if (GlobalGameData.GameValues.Equals(gvs)){
                         List<PEventItem> events = judge.Events;
-                        foreach (PEventItem eventItem in events)
-                        {
+                        foreach (PEventItem eventItem in events){
                             int evtId = Convert.ToInt32(eventItem.EvtId);
                             string evtDesc = EventCollection.Instance.Get(evtId);
-                            if (!string.IsNullOrEmpty(evtDesc))
-                            {
+                            if (!string.IsNullOrEmpty(evtDesc)){
                                 // TODO: Maybe display event description here.
 
-                                if (null != eventItem.DeltaGameValues)
-                                {
+                                if (eventItem.DeltaGameValues != null){
                                     gameController.UpdateGlobalGameValues(eventItem.DeltaGameValues);                  // Update global values
                                 }
                             }
                         }
 
-                        if (!string.IsNullOrEmpty(judge.NextActionId))
-                        {
+                        if (!string.IsNullOrEmpty(judge.NextActionId)){
                             SwitchAction(judge.NextActionId);
                         }
                         break;
@@ -1057,10 +948,8 @@ namespace Assets.Script.Chapter
         /// <summary>
         /// Set current active history text when a history text clicked
         /// </summary>
-        private void SetCurrentActiveHistoryText(Text nextActiveHistoryText)
-        {
-            if (null != currentActiveHistoryText)
-            {
+        private void SetCurrentActiveHistoryText(Text nextActiveHistoryText){
+            if (currentActiveHistoryText != null){
                 currentActiveHistoryText.color = Color.white;
             }
             nextActiveHistoryText.color = Color.blue;
@@ -1073,29 +962,23 @@ namespace Assets.Script.Chapter
         /// <param name="newLine">A new full-text line</param>
         /// <param name="autoSwitchLine">Auto reading mode</param>
         /// <returns></returns>
-        private IEnumerator ShowLineTimeOut(string newLine, bool autoSwitchLine = false)
-        {
+        private IEnumerator ShowLineTimeOut(string newLine, bool autoSwitchLine = false){
             isShowingLine = true;
-            if (string.IsNullOrEmpty(newLine))
-            {
-                if (SettingModel.isAutoReadingModeOn)
-                {
+            if (string.IsNullOrEmpty(newLine)){
+                if (SettingModel.isAutoReadingModeOn){
                     yield return lineSwitchWaitForSeconds;
                     SwitchLine();
                 }
             }
-            foreach (char lineChar in newLine)
-            {
+            foreach (char lineChar in newLine){
                 currentLineCharIndex++;
                 line.text += lineChar;
-                if (currentLineCharIndex == newLine.Length - 1)
-                {
+                if (currentLineCharIndex == newLine.Length - 1){
                     isShowingLine = false;
                     Debug.Log(DateTime.Now.ToString() + "清除ShowingLine状态");
                     AddHistoryText(newLine); // Add line to history text list
                     Debug.Log("currentLineCharIndex: " + currentLineCharIndex);
-                    if (SettingModel.isAutoReadingModeOn)
-                    {
+                    if (SettingModel.isAutoReadingModeOn){
                         yield return lineSwitchWaitForSeconds;
                         SwitchLine();
                     }
@@ -1107,13 +990,10 @@ namespace Assets.Script.Chapter
         /// <summary>
         /// Show line text immediately
         /// </summary>
-        private void ShowLineImmediately()
-        {
-            if (isShowingLine)
-            {
+        private void ShowLineImmediately(){
+            if (isShowingLine){
                 Debug.Log(DateTime.Now.ToString() + "准备跳过");
-                if (null != currentTextShowCoroutine)
-                {
+                if (currentTextShowCoroutine != null){
                     StopCoroutine(currentTextShowCoroutine);
                     isShowingLine = false;
                 }
@@ -1122,8 +1002,7 @@ namespace Assets.Script.Chapter
             ShowLineImmediately(nextLine);
             Debug.Log(DateTime.Now.ToString() + "已跳过");
             // If SettingModel.isAutoReadingModeOn == true, call SwitchLine()
-            if (!SettingModel.isSkipModeOn && SettingModel.isAutoReadingModeOn && IsSwitchLineAllowed())
-            {
+            if (!SettingModel.isSkipModeOn && SettingModel.isAutoReadingModeOn && IsSwitchLineAllowed()){
                 currentLineSwitchCoroutine = StartCoroutine(SwitchLineTimeout());
             }
         }
@@ -1132,13 +1011,11 @@ namespace Assets.Script.Chapter
         /// Show line text immediately
         /// </summary>
         /// <param name="newLine">A new full-text line</param>
-        private void ShowLineImmediately(string newLine)
-        {
+        private void ShowLineImmediately(string newLine){
             line.text = newLine;
 
             // If SettingModel.isAutoReadingModeOn == true, call SwitchLine()
-            if (!SettingModel.isSkipModeOn && SettingModel.isAutoReadingModeOn && IsSwitchLineAllowed())
-            {
+            if (!SettingModel.isSkipModeOn && SettingModel.isAutoReadingModeOn && IsSwitchLineAllowed()){
                 Debug.Log("1: historyField.activeSelf=" + historyField.activeSelf);
                 currentLineSwitchCoroutine = StartCoroutine(SwitchLineTimeout());
             }
@@ -1148,11 +1025,9 @@ namespace Assets.Script.Chapter
         /// Show line text with duration <see cref="waitForSeconds" />
         /// </summary>
         /// <param name="waitForSeconds"></param>
-        private IEnumerator SwitchLineTimeout(WaitForSeconds waitForSeconds)
-        {
+        private IEnumerator SwitchLineTimeout(WaitForSeconds waitForSeconds){
             yield return waitForSeconds;
-            if (!isShowingLine && IsSwitchLineAllowed())
-            {
+            if (!isShowingLine && IsSwitchLineAllowed()){
                 SwitchLine();
             }
         }
@@ -1160,11 +1035,9 @@ namespace Assets.Script.Chapter
         /// <summary>
         /// Show line text with duration <see cref="lineSwitchDuration"/>
         /// </summary>
-        private IEnumerator SwitchLineTimeout()
-        {
+        private IEnumerator SwitchLineTimeout(){
             yield return lineSwitchWaitForSeconds;
-            if (!SettingModel.isSkipModeOn && !isShowingLine && IsSwitchLineAllowed())
-            {
+            if (!SettingModel.isSkipModeOn && !isShowingLine && IsSwitchLineAllowed()){
                 SwitchLine();
             }
         }
@@ -1175,19 +1048,16 @@ namespace Assets.Script.Chapter
         /// <param name="pageIndex">The index of page, total number of page will be `savdDataPageCount`.</param>
         /// <param name="number">The page size, default: 12.</param>
         /// <returns></returns>
-        private List<Button> SetSavedDataModelButtons(int pageIndex, int number = 12)
-        {
+        private List<Button> SetSavedDataModelButtons(int pageIndex, int number = 12){
             int savedDataPageNumbers = savedDataPanel.transform.childCount;
             List<Button> pageButtons;
 
-            if (savedDataPageNumbers >= pageIndex + 1)
-            {
+            if (savedDataPageNumbers >= pageIndex + 1){
                 // Saved data buttons are already initialized, load from cache
                 pageButtons = savedDataButtons[pageIndex];
                 return pageButtons;
             }
-            else
-            {
+            else{
                 // No saved data buttons in this page yet, initial they
                 pageButtons = InitSavedDataButton(pageIndex, number);
                 savedDataButtons[lastLoadedSavedDataPage] = pageButtons;
@@ -1199,8 +1069,7 @@ namespace Assets.Script.Chapter
         /// SavedData show page controller, set page at <paramref name="activeIndex"/> to be actived
         /// </summary>
         /// <param name="activeIndex">active page</param>
-        private void SetActiveSavedDataPanel(int activeIndex)
-        {
+        private void SetActiveSavedDataPanel(int activeIndex){
             Transform pre = savedDataPanel.transform.Find(string.Format("SavedDataPage_{0}", lastLoadedSavedDataPage));
             pre.gameObject.SetActive(false);
             Transform now = savedDataPanel.transform.Find(string.Format("SavedDataPage_{0}", activeIndex));
@@ -1214,8 +1083,7 @@ namespace Assets.Script.Chapter
         /// <param name="pageIndex">Index of SavedDataPage, 0 as start</param>
         /// <param name="number">Button number per page, default: 12</param>
         /// <returns></returns>
-        internal List<Button> InitSavedDataButton(int pageIndex, int number = 12)
-        {
+        internal List<Button> InitSavedDataButton(int pageIndex, int number = 12){
             List<Button> currentSaveDataList = new List<Button>();
             GameObject gameObject = new GameObject(string.Format("SavedDataPage_{0}", lastLoadedSavedDataPage));
             Grid savedDataGrid = gameObject.AddComponent<Grid>();
@@ -1223,24 +1091,19 @@ namespace Assets.Script.Chapter
             savedDataGroup.cellSize = new Vector2(200.0f, 120.0f);
             savedDataGroup.spacing = Vector2.one;
 
-            for (int i = 0; i < number; i++)
-            {
+            for (int i = 0; i < number; i++){
                 Button newEmptySaveDataModel = Instantiate(saveDataModelPrefab);
                 Button.ButtonClickedEvent saveDataClickEvent = new Button.ButtonClickedEvent();
                 int savedDataIndex = pageIndex * number + i;
-                saveDataClickEvent.AddListener(delegate ()
-                {
+                saveDataClickEvent.AddListener(delegate (){
                     // Click Callback
-                    if (isSavingGameData)
-                    {
+                    if (isSavingGameData){
                         // Save game data
 
                         // TODO: Test it
                         // Save current status of game.
-                        if (null == savedDatas[savedDataIndex])
-                        {
-                            savedDatas[savedDataIndex] = new SavedDataModel()
-                            {
+                        if (null == savedDatas[savedDataIndex]){
+                            savedDatas[savedDataIndex] = new SavedDataModel(){
                                 savedDataIndex = savedDataIndex,
                                 savedTime = DateTime.Now,
                                 galgameActionId = currentGalgameAction.Id,
@@ -1248,8 +1111,7 @@ namespace Assets.Script.Chapter
                                 gameValues = GlobalGameData.GameValues
                             };
                         }
-                        else
-                        {
+                        else{
                             savedDatas[savedDataIndex].savedDataIndex = savedDataIndex;
                             savedDatas[savedDataIndex].savedTime = DateTime.Now;
                             savedDatas[savedDataIndex].galgameActionId = currentGalgameAction.Id;
@@ -1262,11 +1124,12 @@ namespace Assets.Script.Chapter
                         // Renew saved data display field
                         RenewSavedDataField(newEmptySaveDataModel, savedDatas[savedDataIndex]);
                     }
-                    if (isLoadingSavedData)
-                    {
+                    if (isLoadingSavedData){
                         // Load saved game data
                         SavedDataModel theSavedData = gameController.LoadSavedData(savedDataIndex);
-                        if (null == theSavedData) return;
+                        if (theSavedData ==  null){
+                            return;
+                        }
 
                         // TODO: Test it
                         // Refresh scene via the saved data.
@@ -1281,8 +1144,7 @@ namespace Assets.Script.Chapter
                 newEmptySaveDataModel.name = string.Format("SaveData_{0}", i + 1);
                 newEmptySaveDataModel.GetComponent<RectTransform>().localScale = Vector3.one;
                 // Set display data
-                if (null != savedDatas[savedDataIndex])
-                {
+                if (savedDatas[savedDataIndex] != null){
                     RenewSavedDataField(newEmptySaveDataModel, savedDatas[savedDataIndex]);
                 }
                 currentSaveDataList.Add(newEmptySaveDataModel);
@@ -1295,8 +1157,7 @@ namespace Assets.Script.Chapter
             return currentSaveDataList;
         }
 
-        internal void RenewSavedDataField(Button b, SavedDataModel sdm)
-        {
+        internal void RenewSavedDataField(Button b, SavedDataModel sdm){
             Text t = b.gameObject.transform.GetChild(0).GetComponent<Text>();
             // TODO: Make decision of what should be renew. Background, display text for example.
             t.text = string.Format("Saved Date: {0}\nSaved Time: {1}", sdm.savedTime.ToString("yyyy/MM/dd"), sdm.savedTime.ToString("hh:mm:ss"));
@@ -1307,12 +1168,12 @@ namespace Assets.Script.Chapter
         /// TODO: The SavedDataModel class will be modeified. The method must to be adjusted.
         /// </summary>
         /// <param name="theSavedData"></param>
-        internal void SetCurrentGalgameAction(SavedDataModel theSavedData)
-        {
+        internal void SetCurrentGalgameAction(SavedDataModel theSavedData){
             //SwitchAction(theSavedData.galgameActionId);
             currentLineIndex = theSavedData.galgameActionLineIndex;
             currentGalgameAction = galgameActionsMap[theSavedData.galgameActionId];
             bgSpriteRenderer.sprite = currentGalgameAction.Background;
+            fgSpriteRenderer.sprite = currentGalgameAction.Foreground;
             nextLine = currentGalgameAction.Lines[currentLineIndex].text.Replace("\\n", "\n");
             GlobalGameData.GameValues = theSavedData.gameValues;
             line.text = string.Empty;
@@ -1323,13 +1184,11 @@ namespace Assets.Script.Chapter
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        private bool AddHistoryText(string text)
-        {
+        private bool AddHistoryText(string text){
             Text newHistoryText = Instantiate(historyTextPrefab);
             newHistoryText.text = text;
             Button.ButtonClickedEvent buttonClickedEvent = new Button.ButtonClickedEvent();
-            buttonClickedEvent.AddListener(delegate ()
-            {
+            buttonClickedEvent.AddListener(delegate (){
                 SetCurrentActiveHistoryText(newHistoryText);
             });
             newHistoryText.transform.GetComponent<Button>().onClick = buttonClickedEvent;
@@ -1344,15 +1203,13 @@ namespace Assets.Script.Chapter
         /// </summary>
         /// <param name="canvas">The specific canvas</param>
         /// <returns></returns>
-        private GameObject GetMouseOverUIObject(GameObject canvas)
-        {
+        private GameObject GetMouseOverUIObject(GameObject canvas){
             PointerEventData pointerEventData = new PointerEventData(EventSystem.current);
             pointerEventData.position = Input.mousePosition;
             GraphicRaycaster gr = canvas.GetComponent<GraphicRaycaster>();
             List<RaycastResult> results = new List<RaycastResult>();
             gr.Raycast(pointerEventData, results);
-            if (results.Count != 0)
-            {
+            if (results.Count != 0){
                 return results[0].gameObject;
             }
 
@@ -1364,8 +1221,7 @@ namespace Assets.Script.Chapter
         /// </summary>
         /// <param name="seconds"></param>
         /// <returns></returns>
-        private IEnumerator WaitForSeconds(float seconds)
-        {
+        private IEnumerator WaitForSeconds(float seconds){
             yield return new WaitForSeconds(seconds);
         }
 
@@ -1374,8 +1230,7 @@ namespace Assets.Script.Chapter
         /// </summary>
         /// <param name="waitForSeconds"></param>
         /// <returns></returns>
-        private IEnumerator WaitForSeconds(WaitForSeconds waitForSeconds)
-        {
+        private IEnumerator WaitForSeconds(WaitForSeconds waitForSeconds){
             yield return waitForSeconds;
         }
         #endregion

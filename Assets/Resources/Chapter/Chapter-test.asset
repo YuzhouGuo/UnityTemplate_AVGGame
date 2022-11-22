@@ -21,47 +21,107 @@ MonoBehaviour:
   Video: {fileID: 0}
   GalgameActions:
   - Id: 1
-    PreviousActionId: 7
-    NextActionId: 3
-    RoundId: 1
+    PreviousActionId: 
+    NextActionId: 2
+    RoundId: 
     Line:
-      text: hello hello are you okay???
+      text: "\u591C\u6BD4\u60F3\u8C61\u4E2D\u6DF1\uFF0C\u51B7\u5149\u706F\u523A\u773C\uFF0C\u76AE\u5E26\u5957\u7D27\u4F0A\u666E\u6D1B\u7684\u624B\uFF0C\u5185\u5708\u523A\u7740\u4ED6\u7684\u76AE\u80A4\uFF0C\u4ED6\u88AB\u6CE8\u5C04\u4E86\u836F\u5242\u8FDB
+        \u5165\u4E86\u660F\u8FF7\u3002"
       ffamily: 
-      fcolor: 0x6079d2ff
-      fsize: 15
-      linespacing: 15
+      fcolor: 
+      fsize: 0
+      linespacing: 0
       align: 0
-      fstyle: 2
-      actor: 1
+      fstyle: 0
+      actor: 0
     Lines:
-    - text: hello hello are you okay???
+    - text: "\u591C\u6BD4\u60F3\u8C61\u4E2D\u6DF1\uFF0C\u51B7\u5149\u706F\u523A\u773C\uFF0C\u76AE\u5E26\u5957\u7D27\u4F0A\u666E\u6D1B\u7684\u624B\uFF0C\u5185\u5708\u523A\u7740\u4ED6\u7684\u76AE\u80A4\uFF0C\u4ED6\u88AB\u6CE8\u5C04\u4E86\u836F\u5242\u8FDB
+        \u5165\u4E86\u660F\u8FF7\u3002"
       ffamily: 
-      fcolor: 0x6079d2ff
-      fsize: 15
-      linespacing: 15
+      fcolor: 
+      fsize: 0
+      linespacing: 0
       align: 0
-      fstyle: 2
-      actor: 1
-    - text: yeah yeah
-      ffamily: 
-      fcolor: 0x6079d2ff
-      fsize: 15
-      linespacing: 15
-      align: 0
-      fstyle: 2
-      actor: 2
-    - text: Okay sounds fine
-      ffamily: 
-      fcolor: 0x6079d2ff
-      fsize: 15
-      linespacing: 15
-      align: 0
-      fstyle: 2
-      actor: 1
+      fstyle: 0
+      actor: 0
     Video: {fileID: 0}
-    Bgm: {fileID: 8300000, guid: e22e47f2b82004646bda58a32e42a115, type: 3}
-    Voice: {fileID: 8300000, guid: 8cff6395c49e2456aaedddb3431a27df, type: 3}
-    Background: {fileID: 21300000, guid: 074bd9793feff41e992fe7dac92adbac, type: 3}
+    Bgm: {fileID: 0}
+    Voice: {fileID: 0}
+    Background: {fileID: 21300000, guid: 969ebf5926cdf45efbd0701e0e95ae0b, type: 3}
+    BgLayer: 0
+    Foreground: {fileID: 0}
+    FgLayer: 0
+    Actor: 0
+    ActorAnimation: 
+    Input: 
+    Selector:
+      Id: 
+      Name: 
+      Type: 0
+      Texts: []
+      Bgs: []
+      Bgms: []
+      IsSelected: 0
+      SelectedItem: 0
+      Options: []
+    GameValuesAdjuster:
+      Id: 
+      Name: 
+      DeltaGameValues:
+        RoleStatus:
+          HealthPoint: -9999
+          ManaPoint: -9999
+          ExperiencePoint: -9999
+          SkillPoint: -9999
+        RoleAbility:
+          Attack: -9999
+          Defence: -9999
+          Evasion: -9999
+        RoleMood:
+          Sorrow: -9999
+          Angry: -9999
+          Hate: -9999
+        ExampleOtherValue: -9999
+    Judge:
+      Id: 
+      Name: 
+      MeetGameValues: []
+      Events: []
+      NextActionId: 
+    Battle:
+      Id: 
+      Name: 
+      EnemyId: 0
+    Events:
+      Id: 
+      Name: 
+      Events: []
+  - Id: 2
+    PreviousActionId: 1
+    NextActionId: 3
+    RoundId: 
+    Line:
+      text: "\u68A6\u6BD4\u8BB0\u5FC6\u4E2D\u6E29\u6696\uFF0C\u9633\u5149\u5728\u76AE\u80A4\u4E0A\u8DDF\u60C5\u4EBA\u7684\u4EB2\u543B\u4E00\u8D77\u9021\u5DE1"
+      ffamily: 
+      fcolor: 
+      fsize: 0
+      linespacing: 0
+      align: 0
+      fstyle: 0
+      actor: 0
+    Lines:
+    - text: "\u68A6\u6BD4\u8BB0\u5FC6\u4E2D\u6E29\u6696\uFF0C\u9633\u5149\u5728\u76AE\u80A4\u4E0A\u8DDF\u60C5\u4EBA\u7684\u4EB2\u543B\u4E00\u8D77\u9021\u5DE1"
+      ffamily: 
+      fcolor: 
+      fsize: 0
+      linespacing: 0
+      align: 0
+      fstyle: 0
+      actor: 0
+    Video: {fileID: 0}
+    Bgm: {fileID: 0}
+    Voice: {fileID: 0}
+    Background: {fileID: 0}
     BgLayer: 0
     Foreground: {fileID: 0}
     FgLayer: 0
@@ -111,27 +171,29 @@ MonoBehaviour:
       Name: 
       Events: []
   - Id: 3
-    PreviousActionId: 1
+    PreviousActionId: 2
     NextActionId: 4
-    RoundId: 1
+    RoundId: 
     Line:
-      text: ......
+      text: "\u4ED6\u786E\u5B9E\u53D7\u591F\u4E86\u897F\u57CE\u7684\u9634\u51B7\uFF0C\u559D\u591A\u5C11\u70ED
+        \u8336\u8DDF\u9152\u90FD\u6696\u4E0D\u56DE\u50F5\u786C\u7684\u56DB\u80A2\uFF0C\u53CC\u624B\u6276\u5728\u60C5\u4EBA\u5362\u514B\u7684\u8138\u4E0A\uFF0C\u70ED\u610F\u6E17\u8FDB\u8840\u7BA1"
       ffamily: 
-      fcolor: 0x7f3d65ff
+      fcolor: 
       fsize: 0
       linespacing: 0
       align: 0
       fstyle: 0
-      actor: 2
+      actor: 0
     Lines:
-    - text: ......
+    - text: "\u4ED6\u786E\u5B9E\u53D7\u591F\u4E86\u897F\u57CE\u7684\u9634\u51B7\uFF0C\u559D\u591A\u5C11\u70ED
+        \u8336\u8DDF\u9152\u90FD\u6696\u4E0D\u56DE\u50F5\u786C\u7684\u56DB\u80A2\uFF0C\u53CC\u624B\u6276\u5728\u60C5\u4EBA\u5362\u514B\u7684\u8138\u4E0A\uFF0C\u70ED\u610F\u6E17\u8FDB\u8840\u7BA1"
       ffamily: 
-      fcolor: 0x7f3d65ff
+      fcolor: 
       fsize: 0
       linespacing: 0
       align: 0
       fstyle: 0
-      actor: 2
+      actor: 0
     Video: {fileID: 0}
     Bgm: {fileID: 0}
     Voice: {fileID: 0}
@@ -187,9 +249,9 @@ MonoBehaviour:
   - Id: 4
     PreviousActionId: 3
     NextActionId: 5
-    RoundId: 1
+    RoundId: 
     Line:
-      text: 
+      text: "\u5C31\u4E3A\u4E86\u8FD9\u4E2A\uFF0C\u4ED6\u66FE\u7ECF \u60F3\u8FC7\u8DDF\u4ED6\u4E00\u8D77\u8D70"
       ffamily: 
       fcolor: 
       fsize: 0
@@ -197,11 +259,19 @@ MonoBehaviour:
       align: 0
       fstyle: 0
       actor: 0
-    Lines: []
+    Lines:
+    - text: "\u5C31\u4E3A\u4E86\u8FD9\u4E2A\uFF0C\u4ED6\u66FE\u7ECF \u60F3\u8FC7\u8DDF\u4ED6\u4E00\u8D77\u8D70"
+      ffamily: 
+      fcolor: 
+      fsize: 0
+      linespacing: 0
+      align: 0
+      fstyle: 0
+      actor: 0
     Video: {fileID: 0}
     Bgm: {fileID: 0}
     Voice: {fileID: 0}
-    Background: {fileID: 21300000, guid: 18b7b058b040043ffb9445a3e263ae0d, type: 3}
+    Background: {fileID: 0}
     BgLayer: 0
     Foreground: {fileID: 0}
     FgLayer: 0
@@ -252,10 +322,10 @@ MonoBehaviour:
       Events: []
   - Id: 5
     PreviousActionId: 4
-    NextActionId: 7
-    RoundId: 1
+    NextActionId: 6
+    RoundId: 
     Line:
-      text: 
+      text: "\u5982\u679C\u4E0D\u662F\u649E\u89C1\u60C5\u4EBA\u79C1\u4E0B\u91CC\u8FD8\u662F\u522B\u4EBA\u7684\u60C5\u4EBA"
       ffamily: 
       fcolor: 
       fsize: 0
@@ -263,9 +333,91 @@ MonoBehaviour:
       align: 0
       fstyle: 0
       actor: 0
-    Lines: []
+    Lines:
+    - text: "\u5982\u679C\u4E0D\u662F\u649E\u89C1\u60C5\u4EBA\u79C1\u4E0B\u91CC\u8FD8\u662F\u522B\u4EBA\u7684\u60C5\u4EBA"
+      ffamily: 
+      fcolor: 
+      fsize: 0
+      linespacing: 0
+      align: 0
+      fstyle: 0
+      actor: 0
     Video: {fileID: 0}
-    Bgm: {fileID: 8300000, guid: da90396323d8548b6b017343615a6a50, type: 3}
+    Bgm: {fileID: 0}
+    Voice: {fileID: 0}
+    Background: {fileID: 0}
+    BgLayer: 0
+    Foreground: {fileID: 0}
+    FgLayer: 0
+    Actor: 0
+    ActorAnimation: 
+    Input: 
+    Selector:
+      Id: 
+      Name: 
+      Type: 0
+      Texts: []
+      Bgs: []
+      Bgms: []
+      IsSelected: 0
+      SelectedItem: 0
+      Options: []
+    GameValuesAdjuster:
+      Id: 
+      Name: 
+      DeltaGameValues:
+        RoleStatus:
+          HealthPoint: -9999
+          ManaPoint: -9999
+          ExperiencePoint: -9999
+          SkillPoint: -9999
+        RoleAbility:
+          Attack: -9999
+          Defence: -9999
+          Evasion: -9999
+        RoleMood:
+          Sorrow: -9999
+          Angry: -9999
+          Hate: -9999
+        ExampleOtherValue: -9999
+    Judge:
+      Id: 
+      Name: 
+      MeetGameValues: []
+      Events: []
+      NextActionId: 
+    Battle:
+      Id: 
+      Name: 
+      EnemyId: 0
+    Events:
+      Id: 
+      Name: 
+      Events: []
+  - Id: 6
+    PreviousActionId: 5
+    NextActionId: 7
+    RoundId: 
+    Line:
+      text: "\u60C5\u4EBA\u7684\u543B\u51D1\u5230\u4E86\u4ED6\u7684\u8116\u9888\u95F4\uFF0C\u7259\u9F7F\u8DDF\u820C\u5934\u7EA0\u7F20\u53AE\u78E8\uFF0C\u80A1\u95F4\u9876\u7740\u52C3\u8D77"
+      ffamily: 
+      fcolor: 
+      fsize: 0
+      linespacing: 0
+      align: 0
+      fstyle: 0
+      actor: 0
+    Lines:
+    - text: "\u60C5\u4EBA\u7684\u543B\u51D1\u5230\u4E86\u4ED6\u7684\u8116\u9888\u95F4\uFF0C\u7259\u9F7F\u8DDF\u820C\u5934\u7EA0\u7F20\u53AE\u78E8\uFF0C\u80A1\u95F4\u9876\u7740\u52C3\u8D77"
+      ffamily: 
+      fcolor: 
+      fsize: 0
+      linespacing: 0
+      align: 0
+      fstyle: 0
+      actor: 0
+    Video: {fileID: 0}
+    Bgm: {fileID: 0}
     Voice: {fileID: 0}
     Background: {fileID: 0}
     BgLayer: 0
@@ -317,11 +469,11 @@ MonoBehaviour:
       Name: 
       Events: []
   - Id: 7
-    PreviousActionId: 5
+    PreviousActionId: 6
     NextActionId: 8
-    RoundId: 1
+    RoundId: 
     Line:
-      text: 
+      text: "\u60C5\u4EBA\u4F0F\u5728\u4ED6\u8EAB\u4E0A\uFF0C\u6E29\u67D4\u5730\u6DF1\u5165"
       ffamily: 
       fcolor: 
       fsize: 0
@@ -329,189 +481,8 @@ MonoBehaviour:
       align: 0
       fstyle: 0
       actor: 0
-    Lines: []
-    Video: {fileID: 0}
-    Bgm: {fileID: 0}
-    Voice: {fileID: 0}
-    Background: {fileID: 0}
-    BgLayer: 0
-    Foreground: {fileID: 0}
-    FgLayer: 0
-    Actor: 0
-    ActorAnimation: 
-    Input: 
-    Selector:
-      Id: selector-1
-      Name: 
-      Type: 0
-      Texts: []
-      Bgs: []
-      Bgms: []
-      IsSelected: 0
-      SelectedItem: -1
-      Options:
-      - Id: 
-        Name: 
-        Text:
-          Id: 
-          Name: 
-          text: Choice 1
-          ffamily: 
-          fcolor: 
-          fsize: 0
-          linespacing: 0
-          align: 0
-          fstyle: 0
-        Bg: {fileID: 0}
-        Bgm: {fileID: 0}
-        DeltaGameValues:
-          RoleStatus:
-            HealthPoint: -9999
-            ManaPoint: -9999
-            ExperiencePoint: -9999
-            SkillPoint: -9999
-          RoleAbility:
-            Attack: -9999
-            Defence: -9999
-            Evasion: -9999
-          RoleMood:
-            Sorrow: -9999
-            Angry: -9999
-            Hate: -9999
-          ExampleOtherValue: -9999
-        Action:
-          Id: 
-          PreviousActionId: 
-          NextActionId: 
-          RoundId: 
-          Line:
-            text: from the male side
-            ffamily: 
-            fcolor: 
-            fsize: 0
-            linespacing: 0
-            align: 0
-            fstyle: 0
-            actor: 2
-          Lines:
-          - text: from the male side
-            ffamily: 
-            fcolor: 
-            fsize: 0
-            linespacing: 0
-            align: 0
-            fstyle: 0
-            actor: 2
-          Video: {fileID: 0}
-          Bgm: {fileID: 0}
-          Voice: {fileID: 0}
-          Background: {fileID: 0}
-          BgLayer: 4
-          Foreground: {fileID: 0}
-          FgLayer: 2
-          Actor: 2
-          ActorAnimation: 
-          Input: 
-      - Id: 
-        Name: 
-        Text:
-          Id: 
-          Name: 
-          text: Choice 2
-          ffamily: 
-          fcolor: 
-          fsize: 0
-          linespacing: 0
-          align: 0
-          fstyle: 0
-        Bg: {fileID: 0}
-        Bgm: {fileID: 0}
-        DeltaGameValues:
-          RoleStatus:
-            HealthPoint: -9999
-            ManaPoint: -9999
-            ExperiencePoint: -9999
-            SkillPoint: -9999
-          RoleAbility:
-            Attack: -9999
-            Defence: -9999
-            Evasion: -9999
-          RoleMood:
-            Sorrow: -9999
-            Angry: -9999
-            Hate: -9999
-          ExampleOtherValue: -9999
-        Action:
-          Id: 
-          PreviousActionId: 
-          NextActionId: 
-          RoundId: 
-          Line:
-            text: from the male side
-            ffamily: 
-            fcolor: 
-            fsize: 0
-            linespacing: 0
-            align: 0
-            fstyle: 0
-            actor: 2
-          Lines:
-          - text: from the male side
-            ffamily: 
-            fcolor: 
-            fsize: 0
-            linespacing: 0
-            align: 0
-            fstyle: 0
-            actor: 2
-          Video: {fileID: 0}
-          Bgm: {fileID: 0}
-          Voice: {fileID: 0}
-          Background: {fileID: 0}
-          BgLayer: 4
-          Foreground: {fileID: 0}
-          FgLayer: 2
-          Actor: 1
-          ActorAnimation: 
-          Input: 
-    GameValuesAdjuster:
-      Id: 
-      Name: 
-      DeltaGameValues:
-        RoleStatus:
-          HealthPoint: -9999
-          ManaPoint: -9999
-          ExperiencePoint: -9999
-          SkillPoint: -9999
-        RoleAbility:
-          Attack: -9999
-          Defence: -9999
-          Evasion: -9999
-        RoleMood:
-          Sorrow: -9999
-          Angry: -9999
-          Hate: -9999
-        ExampleOtherValue: -9999
-    Judge:
-      Id: 
-      Name: 
-      MeetGameValues: []
-      Events: []
-      NextActionId: 
-    Battle:
-      Id: 
-      Name: 
-      EnemyId: 0
-    Events:
-      Id: 
-      Name: 
-      Events: []
-  - Id: 8
-    PreviousActionId: 7
-    NextActionId: 32
-    RoundId: 1
-    Line:
-      text: 
+    Lines:
+    - text: "\u60C5\u4EBA\u4F0F\u5728\u4ED6\u8EAB\u4E0A\uFF0C\u6E29\u67D4\u5730\u6DF1\u5165"
       ffamily: 
       fcolor: 
       fsize: 0
@@ -519,7 +490,6 @@ MonoBehaviour:
       align: 0
       fstyle: 0
       actor: 0
-    Lines: []
     Video: {fileID: 0}
     Bgm: {fileID: 0}
     Voice: {fileID: 0}
@@ -559,10 +529,66 @@ MonoBehaviour:
           Hate: -9999
         ExampleOtherValue: -9999
     Judge:
-      Id: judge-1
+      Id: 
       Name: 
-      MeetGameValues:
-      - RoleStatus:
+      MeetGameValues: []
+      Events: []
+      NextActionId: 
+    Battle:
+      Id: 
+      Name: 
+      EnemyId: 0
+    Events:
+      Id: 
+      Name: 
+      Events: []
+  - Id: 8
+    PreviousActionId: 7
+    NextActionId: 9
+    RoundId: 
+    Line:
+      text: "\u4F60\u53BB\u4E86\u54EA\u91CC\uFF0C\u7B49\u4E86\u4F60\u8FD9\u4E48\u4E45"
+      ffamily: 
+      fcolor: 0x6079d2ff
+      fsize: 15
+      linespacing: 15
+      align: 0
+      fstyle: 2
+      actor: 2
+    Lines:
+    - text: "\u4F60\u53BB\u4E86\u54EA\u91CC\uFF0C\u7B49\u4E86\u4F60\u8FD9\u4E48\u4E45"
+      ffamily: 
+      fcolor: 0x6079d2ff
+      fsize: 15
+      linespacing: 15
+      align: 6
+      fstyle: 2
+      actor: 1
+    Video: {fileID: 0}
+    Bgm: {fileID: 8300000, guid: e22e47f2b82004646bda58a32e42a115, type: 3}
+    Voice: {fileID: 0}
+    Background: {fileID: 21300000, guid: 969ebf5926cdf45efbd0701e0e95ae0b, type: 3}
+    BgLayer: 4
+    Foreground: {fileID: 21300000, guid: a6b0b1b9115774d67ae908a03eb88ed1, type: 3}
+    FgLayer: 2
+    Actor: 2
+    ActorAnimation: 
+    Input: 
+    Selector:
+      Id: 
+      Name: 
+      Type: 0
+      Texts: []
+      Bgs: []
+      Bgms: []
+      IsSelected: 0
+      SelectedItem: 0
+      Options: []
+    GameValuesAdjuster:
+      Id: 
+      Name: 
+      DeltaGameValues:
+        RoleStatus:
           HealthPoint: -9999
           ManaPoint: -9999
           ExperiencePoint: -9999
@@ -576,6 +602,158 @@ MonoBehaviour:
           Angry: -9999
           Hate: -9999
         ExampleOtherValue: -9999
+    Judge:
+      Id: 
+      Name: 
+      MeetGameValues: []
+      Events: []
+      NextActionId: 
+    Battle:
+      Id: 
+      Name: 
+      EnemyId: 0
+    Events:
+      Id: 
+      Name: 
+      Events: []
+  - Id: 9
+    PreviousActionId: 8
+    NextActionId: 10
+    RoundId: 
+    Line:
+      text: "\u6211......"
+      ffamily: 
+      fcolor: 0x6079d2ff
+      fsize: 15
+      linespacing: 15
+      align: 6
+      fstyle: 2
+      actor: 1
+    Lines:
+    - text: "\u6211......"
+      ffamily: 
+      fcolor: 0x6079d2ff
+      fsize: 15
+      linespacing: 15
+      align: 6
+      fstyle: 2
+      actor: 1
+    Video: {fileID: 0}
+    Bgm: {fileID: 8300000, guid: da90396323d8548b6b017343615a6a50, type: 3}
+    Voice: {fileID: 0}
+    Background: {fileID: 21300000, guid: 969ebf5926cdf45efbd0701e0e95ae0b, type: 3}
+    BgLayer: 4
+    Foreground: {fileID: 21300000, guid: c7c30547d9e1749a2827f73356660b41, type: 3}
+    FgLayer: 2
+    Actor: 1
+    ActorAnimation: 
+    Input: 
+    Selector:
+      Id: 
+      Name: 
+      Type: 0
+      Texts: []
+      Bgs: []
+      Bgms: []
+      IsSelected: 0
+      SelectedItem: 0
+      Options: []
+    GameValuesAdjuster:
+      Id: 
+      Name: 
+      DeltaGameValues:
+        RoleStatus:
+          HealthPoint: -9999
+          ManaPoint: -9999
+          ExperiencePoint: -9999
+          SkillPoint: -9999
+        RoleAbility:
+          Attack: -9999
+          Defence: -9999
+          Evasion: -9999
+        RoleMood:
+          Sorrow: -9999
+          Angry: -9999
+          Hate: -9999
+        ExampleOtherValue: -9999
+    Judge:
+      Id: 
+      Name: 
+      MeetGameValues: []
+      Events: []
+      NextActionId: 
+    Battle:
+      Id: 
+      Name: 
+      EnemyId: 0
+    Events:
+      Id: 
+      Name: 
+      Events: []
+  - Id: 10
+    PreviousActionId: 9
+    NextActionId: 10
+    RoundId: 
+    Line:
+      text: "\u4F0A\u666E\u6D1B\u5185\u5FC3\u8FDF\u7591\uFF0C\u4ED6\u4EEC\u4FE9\u4ECE\u6765\u4E0D\u8C08\u8FD9\u4E9B\uFF0C\u8FD9\u662F\u5FC3\u7167\u4E0D\u5BA3\u7684\u5171\u8BC6"
+      ffamily: 
+      fcolor: 
+      fsize: 0
+      linespacing: 0
+      align: 0
+      fstyle: 0
+      actor: 0
+    Lines:
+    - text: "\u4F0A\u666E\u6D1B\u5185\u5FC3\u8FDF\u7591\uFF0C\u4ED6\u4EEC\u4FE9\u4ECE\u6765\u4E0D\u8C08\u8FD9\u4E9B\uFF0C\u8FD9\u662F\u5FC3\u7167\u4E0D\u5BA3\u7684\u5171\u8BC6"
+      ffamily: 
+      fcolor: 
+      fsize: 0
+      linespacing: 0
+      align: 0
+      fstyle: 0
+      actor: 0
+    Video: {fileID: 0}
+    Bgm: {fileID: 8300000, guid: da90396323d8548b6b017343615a6a50, type: 3}
+    Voice: {fileID: 0}
+    Background: {fileID: 21300000, guid: 969ebf5926cdf45efbd0701e0e95ae0b, type: 3}
+    BgLayer: 4
+    Foreground: {fileID: 21300000, guid: c7c30547d9e1749a2827f73356660b41, type: 3}
+    FgLayer: 2
+    Actor: 1
+    ActorAnimation: 
+    Input: 
+    Selector:
+      Id: 
+      Name: 
+      Type: 0
+      Texts: []
+      Bgs: []
+      Bgms: []
+      IsSelected: 0
+      SelectedItem: 0
+      Options: []
+    GameValuesAdjuster:
+      Id: 
+      Name: 
+      DeltaGameValues:
+        RoleStatus:
+          HealthPoint: -9999
+          ManaPoint: -9999
+          ExperiencePoint: -9999
+          SkillPoint: -9999
+        RoleAbility:
+          Attack: -9999
+          Defence: -9999
+          Evasion: -9999
+        RoleMood:
+          Sorrow: -9999
+          Angry: -9999
+          Hate: -9999
+        ExampleOtherValue: -9999
+    Judge:
+      Id: 
+      Name: 
+      MeetGameValues: []
       Events: []
       NextActionId: 
     Battle:
