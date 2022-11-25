@@ -70,7 +70,7 @@ namespace Assets.Script.Chapter
         private Vector3 defaultMenuLocalPos;
         private Vector3 shownMenuLocalPos;
 
-        private const string DEFAULT_POPUP_NOTICE_TEXT = "本気ですか？";
+        private const string DEFAULT_POPUP_NOTICE_TEXT = "Are you sure to exit?";
         private Text popupNoticeText;
         private Text popupCallbackText;
 
@@ -619,22 +619,23 @@ namespace Assets.Script.Chapter
         public void InitializeSettingConfig()
         {
             // No config file exist, return
-            if (!Directory.Exists(settingConfigPath) || !File.Exists(settingConfigFullName)) return;
+            if (!Directory.Exists(settingConfigPath) || !File.Exists(settingConfigFullName)) {
+                return;
+            }
+
             // Read config
             string configInJson = string.Empty;
-            using (StreamReader configReader = new StreamReader(settingConfigFullName))
-            {
+            using (StreamReader configReader = new StreamReader(settingConfigFullName)){
                 configInJson = configReader.ReadToEnd();
             }
+
             // Init
             SerializableSettingModel settingModel = null;
-            try
-            {
+            try{
                 settingModel = JsonConvert.DeserializeObject<SerializableSettingModel>(configInJson);
             }
-            catch
-            {
-                // Log
+            catch{
+                Debug.Log("Json setting config loading failed");
             }
             SettingModel.Update(settingModel);
         }

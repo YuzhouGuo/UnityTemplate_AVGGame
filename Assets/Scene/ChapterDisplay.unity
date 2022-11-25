@@ -5290,7 +5290,7 @@ PrefabInstance:
     - target: {fileID: 114886206101645296, guid: fd8a49de478e39a46bf11abea6f48adc,
         type: 3}
       propertyPath: m_Text
-      value: "\u30BF\u30A4\u30C8\u30EB\u3078\u623B\u308B"
+      value: Return
       objectReference: {fileID: 0}
     - target: {fileID: 114886206101645296, guid: fd8a49de478e39a46bf11abea6f48adc,
         type: 3}
@@ -6883,7 +6883,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u306F\u3044"
+  m_Text: Confirm
 --- !u!222 &758998881
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8418,7 +8418,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -360, y: 21.400005}
-  m_SizeDelta: {x: 720, y: 15.920398}
+  m_SizeDelta: {x: 720, y: 15.706806}
   m_Pivot: {x: -0.0000000018626451, y: 1}
 --- !u!114 &908063123
 MonoBehaviour:
@@ -8565,7 +8565,7 @@ PrefabInstance:
     - target: {fileID: 114886206101645296, guid: fd8a49de478e39a46bf11abea6f48adc,
         type: 3}
       propertyPath: m_Text
-      value: "\u30B2\u30FC\u30E0\u306E\u7D42\u4E86"
+      value: Exit
       objectReference: {fileID: 0}
     - target: {fileID: 114886206101645296, guid: fd8a49de478e39a46bf11abea6f48adc,
         type: 3}
@@ -11872,7 +11872,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u3044\u3044\u3048"
+  m_Text: Cancel
 --- !u!222 &1230565197
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -15148,7 +15148,7 @@ PrefabInstance:
     - target: {fileID: 114886206101645296, guid: fd8a49de478e39a46bf11abea6f48adc,
         type: 3}
       propertyPath: m_Text
-      value: "\u4F5C\u8005\u306B\u3064\u3044\u3066"
+      value: About Author
       objectReference: {fileID: 0}
     - target: {fileID: 114886206101645296, guid: fd8a49de478e39a46bf11abea6f48adc,
         type: 3}
@@ -15614,7 +15614,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u672C\u6C17\u3067\u3059\u304B\uFF1F"
+  m_Text: Are you sure to exit?
 --- !u!222 &1631545009
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -16234,9 +16234,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0, g: 0.46666667, b: 0.26666668, a: 0.3137255}
-    m_PressedColor: {r: 0, g: 0.46666667, b: 0.26666668, a: 0.49803922}
-    m_SelectedColor: {r: 0, g: 0.46666667, b: 0.26666668, a: 0.3137255}
+    m_HighlightedColor: {r: 0.016610488, g: 0, b: 0.3773585, a: 0.49803922}
+    m_PressedColor: {r: 0.016610488, g: 0, b: 0.3773585, a: 0.49803922}
+    m_SelectedColor: {r: 0.016610488, g: 0, b: 0.3773585, a: 0.49803922}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -17833,9 +17833,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0, g: 0.46666667, b: 0.26666668, a: 0.3137255}
-    m_PressedColor: {r: 0, g: 0.46666667, b: 0.26666668, a: 0.49803922}
-    m_SelectedColor: {r: 0, g: 0.46666667, b: 0.26666668, a: 0.3137255}
+    m_HighlightedColor: {r: 0.016610488, g: 0, b: 0.3773585, a: 0.49803922}
+    m_PressedColor: {r: 0.016610488, g: 0, b: 0.3773585, a: 0.49803922}
+    m_SelectedColor: {r: 0.016610488, g: 0, b: 0.3773585, a: 0.49803922}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
