@@ -16,11 +16,7 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 8a7eed72ae1f14e0d8459b586ce5a781
-  m_SerializeEntries:
-  - m_GUID: fdb2f894cfdda499eb7b055d5d774d79
-    m_Address: Assets/Localization/LocaleStringTables/test Shared Data.asset
-    m_ReadOnly: 1
-    m_SerializedLabels: []
+  m_SerializeEntries: []
   m_ReadOnly: 1
   m_Settings: {fileID: 11400000, guid: 26629391e4fe1459681d00e95274eba5, type: 2}
   m_SchemaSet:
